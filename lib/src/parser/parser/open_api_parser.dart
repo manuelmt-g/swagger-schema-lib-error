@@ -173,7 +173,32 @@ class OpenApiParser {
       Map<String, dynamic> map,
       String additionalName,
     ) {
-      final code2xx = code2xxMap(map);
+      var code2xx = code2xxMap(map);
+
+      /// Statement to take into account `responses` from `components`
+      if (code2xx != null && code2xx.containsKey(_refConst)) {
+        final refResponseName = _formatRef(code2xx);
+
+        final isRefResponseExist = _definitionFileContent
+                .containsKey(_componentsConst) &&
+            (_definitionFileContent[_componentsConst] as Map<String, dynamic>)
+                .containsKey(_responsesConst) &&
+            ((_definitionFileContent[_componentsConst]
+                        as Map<String, dynamic>)[_responsesConst]
+                    as Map<String, dynamic>)
+                .containsKey(refResponseName);
+
+        if (!isRefResponseExist) {
+          throw OpenApiParserException(
+            '${code2xx[_refConst]} does not exist in schema',
+          );
+        }
+
+        code2xx = ((_definitionFileContent[_componentsConst]
+                as Map<String, dynamic>)[_responsesConst]
+            as Map<String, dynamic>)[refResponseName] as Map<String, dynamic>;
+      }
+
       if (code2xx == null || !code2xx.containsKey(_contentConst)) {
         return null;
       }

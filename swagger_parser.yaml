@@ -1,3 +1,5 @@
 swagger_parser:
   schema_path: schemes/openapi.yaml
   output_directory: lib/api
+
+  json_serializer: dart_mappable

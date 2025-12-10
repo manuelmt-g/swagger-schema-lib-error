@@ -43,6 +43,8 @@ paths:
       responses:
         '200':
           $ref: "#/components/responses/200"
+        '400':
+          $ref: "#/components/responses/400"
         # '200':
         #   description: successful operation
         #   content:
@@ -51,8 +53,8 @@ paths:
         #         $ref: "#/components/schemas/PetsArray"
         # '400':
         #   $ref: "#/components/responses/400"
-        # default:
-        #   $ref: "#/components/responses/errorResponse"
+        default:
+          $ref: "#/components/responses/errorResponse"
 components:
   schemas:
     Pet:
@@ -114,10 +116,10 @@ components:
         - code
         - message
   # test
-    PetsArray:
-      type: array
-      items:
-        $ref: "#/components/schemas/Pet"
+    # PetsArray:
+    #   type: array
+    #   items:
+    #     $ref: "#/components/schemas/Pet"
   requestBodies:
     Pet:
       description: Pet object that needs to be added to the store
